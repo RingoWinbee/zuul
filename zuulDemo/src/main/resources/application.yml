@@ -1,0 +1,49 @@
+server:
+  port: 10900 #服务端口
+eureka: #配置要eureka的信息
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.32.250:8763/eureka/
+  instance:
+    prefer-ip-address: true
+spring: #配置服务的名字
+  application:
+    name: zuulDemo
+  servlet:
+    multipart:
+      max-file-size: 2000Mb      # Max file size，默认1M
+      max-request-size: 2500Mb   # Max request size，默认10M
+  security:  #配置访问 zuul 的 routes 的时候使用
+    user:
+      name: zuul
+      password: zuul
+
+management: #开启全部的监听端点
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+#zuul:
+  #routes: #配置路由映射
+   # microservice-file-upload: /rout1/** #给指定的服务做映射, 当前配置给microservice-file-upload添加映射地址为/route-map1
+    #consumer-demo: /rout2/**
+    #eruka-server: /eruka-server/**
+    #ignored-services: microservice-file-upload # zuul能发现Eureka上所有注册的服务,然后全部做代理,如果不需要代理其中某些服务,只需添加该配置即可,多个服务以逗号分隔，如果同时设置映射又设置忽略则不忽略
+
+hystrix:
+  metrics:
+    enabled: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 12000
+ribbon:
+    ConnectTimeout:  10000
+    ReadTimeout:  10000
+    eager-load:
+        enabled: true
+    eureka:
+        enabled: true
